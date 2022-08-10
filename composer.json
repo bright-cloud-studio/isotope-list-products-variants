@@ -1,0 +1,29 @@
+{
+    "name":"bright-cloud-studio/isotope-list-products-variants",
+    "description":"Lists an Isotope product and it\'s variants using customizable templates.",
+    "homepage": "http://brightcloudstudio.com/",
+    "keywords":["contao", "isotope", "list", "product", "products", "variant", "variants"],
+    "type":"contao-module",
+    "license":"LGPL-3.0-or-later",
+    "authors":[
+        {
+            "name":"Bright Cloud Studio",
+            "homepage":"https://brightcloudstudio.com"
+        }
+    ],
+    "require":{
+        "php": "^8.0",
+        "contao/core-bundle": "^4.13"
+    },
+    "require-dev": {
+        "contao/manager-plugin": "^2.0"
+    },
+    "extra": {
+        "contao": {
+            "sources": {
+                "system/modules/article_page_selector": "system/modules/article_page_selector"
+            }
+        }
+    },
+    "minimum-stability": "dev"
+}
