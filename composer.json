@@ -22,7 +22,7 @@
     "autoload": {
         "psr-4": {
             "Bcs\\": [
-                "system/modules/isotope_list_product_variants/library/ListProductVariants"
+                "system/modules/isotope_list_products_variants/library/Bcs"
             ]
         }
     },
