@@ -12,13 +12,13 @@
 
 
 
-namespace SuperSort\Backend;
+namespace Bcs\Backend;
 
 
 use Isotope\Model\Product;
 
 
-class SuperSortHelper extends \Isotope\Backend
+class ListProductsVariantsHelper extends \Isotope\Backend
 {
 
 
