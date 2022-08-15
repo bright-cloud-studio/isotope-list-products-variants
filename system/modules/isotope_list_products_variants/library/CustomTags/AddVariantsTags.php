@@ -30,7 +30,8 @@ class AddVariantsTags extends \System
 		switch($arrTag[0]) {
 			// if the tag is what we want, {{simple_inventory::id}}, then lets go
 			case 'add_variants':
-				  return 'Product ID: ' . $arrTag[1];
+				
+				return 'Product ID: ' . $arrTag[1];
 			break;
 		}
 
