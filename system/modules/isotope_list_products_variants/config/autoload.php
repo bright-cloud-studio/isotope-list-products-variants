@@ -16,4 +16,5 @@ ClassLoader::addClasses(array
 (
 	'Bcs\Backend\ListProductsVariantsHelper' 	=> 'system/modules/isotope_list_products_variants/library/Bcs/Backend/ListProductsVariantsHelper.php',
 	'Bcs\Module\ListProductsVariantsList' 		=> 'system/modules/isotope_list_products_variants/library/Bcs/Module/ListProductsVariantsList.php',
+	'CustomTags\AddUserFieldsTags' 			=> 'system/modules/isotope_list_products_variants/library/CustomTags/AddUserFieldsTags.php'
 ));
