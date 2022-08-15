@@ -28,56 +28,32 @@ class ListProductsVariants extends ProductList
      */
     protected function findProducts($arrCacheIds = null)
     {
-        $arrColumns = array();
-        $arrFilters = Isotope::getRequestCache()->getFiltersForModules($this->iso_filterModules);
-        $arrCategories = $this->findCategories($arrFilters);
-        $queryBuilder = new FilterQueryBuilder($arrFilters);
+		global $objPage;
 
-        $arrColumns[] = Product::getTable().'.pid=0';
+		$arrProducts = parent::findProducts($arrCacheIds);
 
-        if (1 === \count($arrCategories)) {
-            $arrColumns[] = "c.page_id=".reset($arrCategories);
-        } else {
-            $arrColumns[] = "c.page_id IN (".implode(',', $arrCategories).")";
-        }
+		$arrOrderedProducts = array();
+		$arrUnorderedProducts = array();
+		$arrOrder = deserialize($objPage->iso_product_order);
+		if (is_array($arrOrder) && !empty($arrOrder)) {
+			foreach ($arrOrder as $product) {
+				foreach($arrProducts as $objProduct) {
+					if ($objProduct->id == $product) {
+						$arrOrderedProducts[] = $objProduct;
+					}
+				}
+			}
 
-        if (!empty($arrCacheIds) && \is_array($arrCacheIds)) {
-            $arrColumns[] = Product::getTable() . ".id IN (" . implode(',', $arrCacheIds) . ")";
-        }
+			foreach($arrProducts as $objProduct) {
+				if (!in_array($objProduct->id, $arrOrder)) {
+					$arrUnorderedProducts[] = $objProduct;
+				}
+			}
 
-        // Apply new/old product filter
-        if ('show_new' === $this->iso_newFilter) {
-            $arrColumns[] = Product::getTable() . ".dateAdded>=" . Isotope::getConfig()->getNewProductLimit();
-        } elseif ('show_old' === $this->iso_newFilter) {
-            $arrColumns[] = Product::getTable() . ".dateAdded<" . Isotope::getConfig()->getNewProductLimit();
-        }
+			$arrProducts = array_merge($arrOrderedProducts, $arrUnorderedProducts);
+		}
 
-        if ($this->iso_list_where != '') {
-            $arrColumns[] = $this->iso_list_where;
-        }
-
-        if ($queryBuilder->hasSqlCondition()) {
-            $arrColumns[] = $queryBuilder->getSqlWhere();
-        }
-
-        $arrSorting = Isotope::getRequestCache()->getSortingsForModules($this->iso_filterModules);
-
-        if (empty($arrSorting) && $this->iso_listingSortField != '') {
-            $direction = ('DESC' === $this->iso_listingSortDirection ? Sort::descending() : Sort::ascending());
-            $arrSorting[$this->iso_listingSortField] = $direction;
-        }
-
-        $objProducts = Product::findAvailableBy(
-            $arrColumns,
-            $queryBuilder->getSqlValues(),
-            array(
-                 'order'   => 1 === \count($arrCategories) ? 'c.sorting' : null,
-                 'filters' => $queryBuilder->getFilters(),
-                 'sorting' => $arrSorting,
-            )
-        );
-
-        return (null === $objProducts) ? array() : $objProducts->getModels();
+        return $arrProducts;
     }
 
 }
