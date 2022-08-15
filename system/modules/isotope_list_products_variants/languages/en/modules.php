@@ -14,6 +14,6 @@
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['iso_list_product_variants']   = array('List Product Variants', 'A customized Isotope Product List which also shows variants');
+$GLOBALS['TL_LANG']['FMD']['iso_list_products_variants']   = array('List Products Variants', 'A customized Isotope Product List which also shows variants');
 
 
