@@ -1,41 +1,17 @@
 <?php
 
 /**
- * Locations - Location Plugin for Contao
+ * Bright Cloud Studio - Isotope List Products Variants
  *
- * Copyright (C) 2018 Andrew Stevens
+ * Copyright (C) 2022 Bright Cloud Studio
  *
- * @package    asconsulting/locations
- * @link       http://andrewstevens.consulting
+ * @package    bright-cloud-studio/isotope-list-products-variants
+ * @link       http://brightcloudstudio.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
 
 /**
-* Back end modules
-*/
-
-
-// DECLARING LOCATIONS BACK END PLUGIN
-$GLOBALS['BE_MOD']['content']['locations'] = array(
-	'tables' => array('tl_location'),
-	'icon'   => 'system/modules/locations/assets/icons/location.png',
-	'exportLocations' => array('Asc\Backend\Locations', 'exportLocations')
-);
-// DECLARING CATEGORIES BACK END PLUGIN
-$GLOBALS['BE_MOD']['content']['categories'] = array(
-	'tables' => array('tl_category'),
-	'icon'   => 'system/modules/locations/assets/icons/category.png',
-	'exportCategories' => array('Asc\Backend\Categories', 'exportCategories')
-);
-
-/**
-* Front end modules
-*/
-$GLOBALS['FE_MOD']['locations']['locations_list'] 	= 'Asc\Module\LocationsList';
-
-/**
- * Models
+ * Frontend modules
  */
-$GLOBALS['TL_MODELS']['tl_location'] = 'Asc\Model\Location';
-$GLOBALS['TL_MODELS']['tl_category'] = 'Asc\Model\Category';
+$GLOBALS['FE_MOD']['isotope']['iso_list_product_variants'] 	= 'Bcs\Module\ListProductVariants';
