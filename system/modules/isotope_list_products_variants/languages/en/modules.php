@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Locations - Location Plugin for Contao
+ * Bright Cloud Studio - Isotope List Products Variants
  *
- * Copyright (C) 2018 Andrew Stevens
+ * Copyright (C) 2022 Bright Cloud Studio
  *
- * @package    asconsulting/locations
- * @link       http://andrewstevens.consulting
+ * @package    bright-cloud-studio/isotope-list-products-variants
+ * @link       http://brightcloudstudio.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
@@ -14,12 +14,6 @@
 /**
  * Front end modules
  */
-$GLOBALS['TL_LANG']['FMD']['locations_list'] 	= array('Locations List', 'Locations list module.');
+$GLOBALS['TL_LANG']['FMD']['iso_list_product_variants']   = array('List Product Variants', 'A customized Isotope Product List which also shows variants');
 
-
-/**
- * Back end modules
- */
-$GLOBALS['TL_LANG']['MOD']['locations'] = array('Rep Locations', 'Configure Rep Locations');
-$GLOBALS['TL_LANG']['MOD']['categories'] = array('Rep Categories', 'Configure Rep Categories');
 
