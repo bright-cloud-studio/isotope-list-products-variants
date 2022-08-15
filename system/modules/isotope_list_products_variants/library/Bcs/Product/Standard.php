@@ -1,7 +1,14 @@
 <?php
 
-namespace Bcs\ListProductsVariants;
 
-class Standard extends AbstractProduct implements WeightAggregate, IsotopeProductWithOptions
+namespace Bcs\Product;
+
+use Isotope\Model\Product;
+
+
+class ProductExtension extends Standard
 {
+   public function generate(array $arrConfig)
+    {
+   }
 }
