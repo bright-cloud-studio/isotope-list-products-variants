@@ -1,6 +1,6 @@
 {
     "name":"bright-cloud-studio/isotope-list-products-variants",
-    "description":"Lists an Isotope product and it\'s variants using customizable templates.",
+    "description":"Lists an Isotope product and it/'s variants using customizable templates.",
     "homepage": "http://brightcloudstudio.com/",
     "keywords":["contao", "isotope", "list", "product", "products", "variant", "variants"],
     "type":"contao-module",
