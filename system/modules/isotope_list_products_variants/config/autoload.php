@@ -1,12 +1,12 @@
 <?php
 
 /**
- * Locations - Location Plugin for Contao
+ * Bright Cloud Studio - Isotope List Products Variants
  *
- * Copyright (C) 2018 Andrew Stevens
+ * Copyright (C) 2022 Bright Cloud Studio
  *
- * @package    asconsulting/locations
- * @link       http://andrewstevens.consulting
+ * @package    bright-cloud-studio/isotope-list-products-variants
+ * @link       http://brightcloudstudio.com
  * @license    http://opensource.org/licenses/lgpl-3.0.html
  */
 
