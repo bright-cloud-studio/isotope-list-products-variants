@@ -14,4 +14,4 @@
 /**
  * Frontend modules
  */
-$GLOBALS['FE_MOD']['isotope']['iso_list_product_variants'] 	= 'Bcs\Module\ListProductVariants';
+$GLOBALS['FE_MOD']['isotope']['iso_list_products_variants'] 	= 'Bcs\Module\ListProductsVariants';
