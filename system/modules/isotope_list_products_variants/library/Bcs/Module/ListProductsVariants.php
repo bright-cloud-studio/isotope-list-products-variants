@@ -16,7 +16,7 @@ namespace Bcs\Module;
 use Isotope\Module\ProductList;
 
 
-class ListProductVariants extends ProductList
+class ListProductsVariants extends ProductList
 {
 
 	/**
