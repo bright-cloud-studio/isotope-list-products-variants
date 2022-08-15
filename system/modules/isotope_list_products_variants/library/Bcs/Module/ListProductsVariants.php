@@ -28,30 +28,9 @@ class ListProductsVariants extends ProductList
      */
     protected function findProducts($arrCacheIds = null)
     {
-		global $objPage;
+	global $objPage;
 
-		$arrProducts = parent::findProducts($arrCacheIds);
-
-		$arrOrderedProducts = array();
-		$arrUnorderedProducts = array();
-		$arrOrder = deserialize($objPage->iso_product_order);
-		if (is_array($arrOrder) && !empty($arrOrder)) {
-			foreach ($arrOrder as $product) {
-				foreach($arrProducts as $objProduct) {
-					if ($objProduct->id == $product) {
-						$arrOrderedProducts[] = $objProduct;
-					}
-				}
-			}
-
-			foreach($arrProducts as $objProduct) {
-				if (!in_array($objProduct->id, $arrOrder)) {
-					$arrUnorderedProducts[] = $objProduct;
-				}
-			}
-
-			$arrProducts = array_merge($arrOrderedProducts, $arrUnorderedProducts);
-		}
+	$arrProducts = parent::findProducts($arrCacheIds);
 
         return $arrProducts;
     }
