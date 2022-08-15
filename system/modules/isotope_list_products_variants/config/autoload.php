@@ -14,6 +14,6 @@
 
 ClassLoader::addClasses(array
 (
-	'ListProductsVariants\Backend\ListProductsVariantsHelper' 	=> 'system/modules/isotope_list_products_variants/library/Bcs/Backend/ListProductsVariantsHelper.php',
-	'ListProductsVariants\Module\ListProductsVariantsList' 		=> 'system/modules/isotope_list_products_variants/library/Bcs/Module/ListProductsVariantsList.php',
+	'Bcs\Backend\ListProductsVariantsHelper' 	=> 'system/modules/isotope_list_products_variants/library/Bcs/Backend/ListProductsVariantsHelper.php',
+	'Bcs\Module\ListProductsVariantsList' 		=> 'system/modules/isotope_list_products_variants/library/Bcs/Module/ListProductsVariantsList.php',
 ));
