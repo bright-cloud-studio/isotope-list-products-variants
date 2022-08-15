@@ -32,10 +32,34 @@ class AddVariantsTags extends \System
 			// if the tag is what we want, {{simple_inventory::id}}, then lets go
 			case 'add_variants':
 				
-				$strType = '';
-				$query = \Database::getInstance()
-				    ->prepare("SELECT * FROM `tl_iso_product` WHERE `pid` = '". $arrTag[1] ."';")
-				    ->execute($strType);
+				
+				
+				
+				
+				
+				
+				
+				
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
+
+				if ($dbObj->numRows > 0)
+				{
+					$arrLocation = array(
+						'id'		=> 111,
+						'pid'		=> 222
+					);
+					
+					$arrLocation['name'] 			= 999;
+					$arrLocation['contact_name']		= 888;
+					
+					$strItemTemplate = ('item_variant');
+					$objTemplate = new \FrontendTemplate($strItemTemplate);
+					$objTemplate->setData($arrLocation);
+					$objTemplate->parse();
+					
+					return $objTemplate;
+				   return "RESULTS = " . $dbObj->numRows ;
+				}
 				
 				
 				return 'Product ID: ' . $strType;
