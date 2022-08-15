@@ -32,11 +32,6 @@ class ListProductsVariants extends ProductList
 	{
 		global $objPage;
 		$arrProducts = parent::findProducts($arrCacheIds);
-		
-		foreach($arrProducts as $objProduct) {
-			$objProduct->name = "ASDF";
-		}
-
 		return $arrProducts;
 	}
 
