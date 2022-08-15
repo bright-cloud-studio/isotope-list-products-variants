@@ -15,3 +15,8 @@
  * Frontend modules
  */
 $GLOBALS['FE_MOD']['isotope']['iso_list_products_variants'] 	= 'Bcs\Module\ListProductsVariants';
+
+/* Hooks */
+if (\Config::getInstance()->isComplete()) {
+  $GLOBALS['TL_HOOKS']['replaceInsertTags'][] = array('CustomTags\AddUserFieldsTags', 'onReplaceTag');
+}
