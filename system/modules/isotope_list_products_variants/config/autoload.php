@@ -18,3 +18,12 @@ ClassLoader::addClasses(array
 	'Bcs\Module\ListProductsVariantsList' 		=> 'system/modules/isotope_list_products_variants/library/Bcs/Module/ListProductsVariantsList.php',
 	'CustomTags\AddVariantsTags' 			=> 'system/modules/isotope_list_products_variants/library/CustomTags/AddVariantsTags.php'
 ));
+
+/**
+ * Register the templates
+ */
+TemplateLoader::addFiles(array
+(
+	'item_variant' 	=> 'system/modules/isotope_list_products_variants/templates/items'
+));
+
