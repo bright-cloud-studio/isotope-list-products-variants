@@ -29,7 +29,7 @@
     "extra": {
         "contao": {
             "sources": {
-                "system/modules/isotope_list_product_variants": "system/modules/isotope_list_product_variants"
+                "system/modules/isotope_list_products_variants": "system/modules/isotope_list_products_variants"
             }
         }
     },
