@@ -47,14 +47,14 @@ class AddVariantsTags extends \System
     					$arrLocation['sku']		= $dbObj->sku;
     					$arrLocation['wp_size']		= $dbObj->wp_size;
     					$arrLocation['baseprice']	= $dbObj->baseprice;
-					$template = new FrontendTemplate('item_variant');
+					$template = new FrontendTemplate('item_variant_dimentions');
 					$template->variant = $arrLocation;
 					$buffer .= $template->parse();
 				    }
 					return $buffer;
 				}
 			break;
-			case 'variants_prices_inches':
+			case 'variants_prices':
 				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
 				$buffer = '';
 				if ($dbObj->numRows > 0)
@@ -65,35 +65,10 @@ class AddVariantsTags extends \System
 					);
 				    while($dbObj->next()) {
     				    
-    					$arrLocation['id'] 		= $dbObj->id;
-    					$arrLocation['pid']		= $dbObj->pid;
-    					$arrLocation['sku']		= $dbObj->sku;
     					$arrLocation['wp_size']		= $dbObj->wp_size;
-    					$arrLocation['baseprice']	= $dbObj->baseprice;
-					$template = new FrontendTemplate('item_variant');
-					$template->variant = $arrLocation;
-					$buffer .= $template->parse();
-				    }
-					return $buffer;
-				}
-			break;
-			case 'variants_prices_millimeters':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
-				$buffer = '';
-				if ($dbObj->numRows > 0)
-				{
-					$arrLocation = array(
-						'id'		=> 111,
-						'pid'		=> 222
-					);
-				    while($dbObj->next()) {
-    				    
-    					$arrLocation['id'] 		= $dbObj->id;
-    					$arrLocation['pid']		= $dbObj->pid;
-    					$arrLocation['sku']		= $dbObj->sku;
-    					$arrLocation['wp_size']		= $dbObj->wp_size;
-    					$arrLocation['baseprice']	= $dbObj->baseprice;
-					$template = new FrontendTemplate('item_variant');
+    					$arrLocation['width']		= $dbObj->width;
+    					$arrLocation['length']		= $dbObj->length;
+					$template = new FrontendTemplate('item_variant_prices');
 					$template->variant = $arrLocation;
 					$buffer .= $template->parse();
 				    }
