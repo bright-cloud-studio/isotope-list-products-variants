@@ -54,6 +54,52 @@ class AddVariantsTags extends \System
 					return $buffer;
 				}
 			break;
+			case 'variants_prices_inches':
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
+				$buffer = '';
+				if ($dbObj->numRows > 0)
+				{
+					$arrLocation = array(
+						'id'		=> 111,
+						'pid'		=> 222
+					);
+				    while($dbObj->next()) {
+    				    
+    					$arrLocation['id'] 		= $dbObj->id;
+    					$arrLocation['pid']		= $dbObj->pid;
+    					$arrLocation['sku']		= $dbObj->sku;
+    					$arrLocation['wp_size']		= $dbObj->wp_size;
+    					$arrLocation['baseprice']	= $dbObj->baseprice;
+					$template = new FrontendTemplate('item_variant');
+					$template->variant = $arrLocation;
+					$buffer .= $template->parse();
+				    }
+					return $buffer;
+				}
+			break;
+			case 'variants_prices_millimeters':
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
+				$buffer = '';
+				if ($dbObj->numRows > 0)
+				{
+					$arrLocation = array(
+						'id'		=> 111,
+						'pid'		=> 222
+					);
+				    while($dbObj->next()) {
+    				    
+    					$arrLocation['id'] 		= $dbObj->id;
+    					$arrLocation['pid']		= $dbObj->pid;
+    					$arrLocation['sku']		= $dbObj->sku;
+    					$arrLocation['wp_size']		= $dbObj->wp_size;
+    					$arrLocation['baseprice']	= $dbObj->baseprice;
+					$template = new FrontendTemplate('item_variant');
+					$template->variant = $arrLocation;
+					$buffer .= $template->parse();
+				    }
+					return $buffer;
+				}
+			break;
 		}
 
 		// something has gone horribly wrong, let the user know and hope for brighter lights ahead
