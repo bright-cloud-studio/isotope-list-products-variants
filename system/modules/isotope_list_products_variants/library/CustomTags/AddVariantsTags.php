@@ -14,6 +14,7 @@ namespace CustomTags;
 use Contao\Database;
 use Contao\DataContainer;
 use Contao\ContentElement;
+use Contao\FrontendTemplate;
 
 class AddVariantsTags extends \System
 {
@@ -30,39 +31,28 @@ class AddVariantsTags extends \System
 		// lets make decisions based on the beginning of the tag
 		switch($arrTag[0]) {
 			// if the tag is what we want, {{simple_inventory::id}}, then lets go
-			case 'add_variants':
-				
-				
-				
-				
-				
-				
-				
-				
-				
+			case 'variants_dimentions':
 				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
-
+				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
 					$arrLocation = array(
 						'id'		=> 111,
 						'pid'		=> 222
 					);
-					
-					$arrLocation['name'] 			= 999;
-					$arrLocation['contact_name']		= 888;
-					
-					$strItemTemplate = ('item_variant');
-					$objTemplate = new \FrontendTemplate($strItemTemplate);
-					$objTemplate->setData($arrLocation);
-					$objTemplate->parse();
-					
-					return $objTemplate;
-				   return "RESULTS = " . $dbObj->numRows ;
+				    while($dbObj->next()) {
+    				    
+    					$arrLocation['id'] 		= $dbObj->id;
+    					$arrLocation['pid']		= $dbObj->pid;
+    					$arrLocation['sku']		= $dbObj->sku;
+    					$arrLocation['wp_size']		= $dbObj->wp_size;
+    					$arrLocation['baseprice']	= $dbObj->baseprice;
+					$template = new FrontendTemplate('item_variant');
+					$template->variant = $arrLocation;
+					$buffer .= $template->parse();
+				    }
+					return $buffer;
 				}
-				
-				
-				return 'Product ID: ' . $strType;
 			break;
 		}
 
