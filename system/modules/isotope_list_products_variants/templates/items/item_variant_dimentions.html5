@@ -1,0 +1,15 @@
+<div class="variant variant_<?= $this->variant['id']; ?> flex_wrapper">
+
+	<div class="size size33">
+		<?php echo $this->variant['wp_size']; ?>
+	</div>
+	
+	<div class="item_number size33">
+		<?php echo $this->variant['sku']; ?>
+	</div>
+	
+	<div class="suggest_retail_price size33">
+		<?php echo $this->variant['baseprice']; ?>
+	</div>
+
+</div>

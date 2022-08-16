@@ -1,3 +1,0 @@
-<div class="variant id_<?= $this->id ?>">
-	<div class='id'>Variant ID<?php echo $this->id; ?></div>
-</div>
