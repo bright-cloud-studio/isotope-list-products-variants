@@ -32,7 +32,8 @@ class AddVariantsTags extends \System
 		switch($arrTag[0]) {
 			// if the tag is what we want, {{simple_inventory::id}}, then lets go
 			case 'variants_dimentions':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY cast(wp_size as decimal(7,2)) ASC")->execute();  
+				
 				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
@@ -46,31 +47,185 @@ class AddVariantsTags extends \System
     					$arrLocation['pid']		= $dbObj->pid;
     					$arrLocation['sku']		= $dbObj->sku;
     					$arrLocation['wp_size']		= $dbObj->wp_size;
-    					$arrLocation['baseprice']	= $dbObj->baseprice;
-					$template = new FrontendTemplate('item_variant_dimentions');
-					$template->variant = $arrLocation;
-					$buffer .= $template->parse();
+    					
+    					$arrLocation['baseprice']	= 999;
+    					
+    					
+    					// Lets get our correct prices
+    					
+    					// First, search tl_iso_product_price using this products ID and that fields PID
+    					$step1 = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product_price WHERE pid = '" . $dbObj->id . "'")->execute();  
+    					while($step1->next()) {
+    					    // Then, search tl_iso_product_pricetier using the PID from the last query to get the 'price'
+    					    $step2 = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product_pricetier WHERE pid = '" . $step1->id . "'")->execute();  
+					        while($step2->next()) {
+					            // Finally, assign that price to our templates array
+					            $arrLocation['baseprice'] = $step2->price;
+					        }
+    					}
+    					
+    					$template = new FrontendTemplate('item_variant_dimentions');
+    					$template->variant = $arrLocation;
+    					$buffer .= $template->parse();
 				    }
 					return $buffer;
 				}
 			break;
-			case 'variants_prices':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "'")->execute();  
+			case 'variants_prices_inches':
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY wp_size")->execute();  
 				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
 					$arrLocation = array(
-						'id'		=> 111,
-						'pid'		=> 222
+						'id'		=> 0
+					);
+					$count = 0;
+				    while($dbObj->next()) {
+				        
+				        
+				        
+				        if($count == 0) {
+        					
+        					$arrLocation['id']		= 'label';
+        					$arrLocation['wp_size']		= 'Size';
+        					
+        					if($dbObj->length == '' || $dbObj->length == 0)
+        					    $arrLocation['length']		= '';
+        					else
+        					    $arrLocation['length']		= 'Length';
+        					
+        					
+        					if($dbObj->width == '' || $dbObj->width == 0)
+        					    $arrLocation['width']		= '';
+        					else
+        					    $arrLocation['width']		= 'Width';
+        					
+        					if($dbObj->height == '' || $dbObj->height == 0)
+        					    $arrLocation['height']		= '';
+        					else
+        					    $arrLocation['height']		= 'Diameter';
+        					    
+        					$template = new FrontendTemplate('item_variant_prices');
+        					$template->variant = $arrLocation;
+        					$buffer .= $template->parse();
+				        }
+				        
+				        $arrLocation['id']		= $dbObj->id;
+    					$arrLocation['wp_size']		= $dbObj->wp_size;
+    					
+    					if($dbObj->length == '' || $dbObj->length == 0 )
+    					    $arrLocation['length']		= '';
+    					else
+    					    $arrLocation['length']		= round((float)$dbObj->length, 2, PHP_ROUND_HALF_UP);
+    					    
+    					if($dbObj->width == '' || $dbObj->width == 0)
+    					    $arrLocation['width']		= '';
+    					else
+    					    $arrLocation['width']		= round((float)$dbObj->width, 2, PHP_ROUND_HALF_UP);
+    					    
+    					if($dbObj->height == '' || $dbObj->height == 0)
+    					    $arrLocation['height']		= '';
+    					else
+    					    $arrLocation['height']		= round((float)$dbObj->height, 2, PHP_ROUND_HALF_UP);
+    					    
+    					$template = new FrontendTemplate('item_variant_prices');
+    					$template->variant = $arrLocation;
+    					$buffer .= $template->parse();
+    					$count++;
+				    }
+					return $buffer;
+				}
+			break;
+			case 'variants_prices_millimeters':
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY wp_size")->execute();  
+				$buffer = '';
+				if ($dbObj->numRows > 0)
+				{
+					$arrLocation = array(
+						'id'		=> 0
+					);
+					$count = 0;
+				    while($dbObj->next()) {
+				        
+				        if($count == 0) {
+        					
+        					$arrLocation['id']		= 'label';
+        					
+
+        					if($dbObj->length == '' || $dbObj->length == 0)
+        					    $arrLocation['length']		= '';
+        					else
+        					    $arrLocation['length']		= 'Length';
+        					
+        					if($dbObj->width == '' || $dbObj->width == 0)
+        					    $arrLocation['width']		= '';
+        					else
+        					    $arrLocation['width']		= 'Width';
+        					
+        					if($dbObj->height == '' || $dbObj->height == 0)
+        					    $arrLocation['height']		= '';
+        					else
+        					    $arrLocation['height']		= 'Diameter';
+        					    
+                            $arrLocation['wp_size']		= 'Size';
+        					$template = new FrontendTemplate('item_variant_prices');
+        					$template->variant = $arrLocation;
+        					$buffer .= $template->parse();
+				        }
+				        
+				        $arrLocation['id']		= $dbObj->id;
+    					$arrLocation['wp_size']		= $dbObj->wp_size;
+    					
+    					
+    					if($dbObj->length == '' || $dbObj->length == 0)
+    					    $arrLocation['length']		= '';
+    					else
+    					    $arrLocation['length']      = round(((float)$dbObj->length * 25.4), 2, PHP_ROUND_HALF_UP);
+
+    					if($dbObj->width == '' || $dbObj->width == 0)
+    					    $arrLocation['width']		= '';
+    					else
+    					    $arrLocation['width']		= round(((float)$dbObj->width * 25.4), 2, PHP_ROUND_HALF_UP);
+
+    					if($dbObj->height == '' || $dbObj->height == 0)
+    					    $arrLocation['height']		= '';
+    					else
+    					    $arrLocation['height']		= round(((float)$dbObj->height * 25.4), 2, PHP_ROUND_HALF_UP);
+
+    					$template = new FrontendTemplate('item_variant_prices');
+    					$template->variant = $arrLocation;
+    					$buffer .= $template->parse();
+    					$count++;
+				    }
+					return $buffer;
+				}
+			break;
+			case 'variants_sizes':
+			    
+			   // REPLACE('w3resource','ur','r');
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY cast(REPLACE(wp_size, '','') as decimal) ASC")->execute();  
+				$buffer = '';
+				
+				$count = 0;
+				if ($dbObj->numRows > 0)
+				{
+					$arrLocation = array(
+						'wp_size'		=> 0,
 					);
 				    while($dbObj->next()) {
-    				    
+				        
+				        if($count != ($dbObj->numRows-1)) {
+				            $arrLocation['divider']		= ", ";
+				        }
+				        else
+				            $arrLocation['divider']		= "";
+				        
     					$arrLocation['wp_size']		= $dbObj->wp_size;
-    					$arrLocation['width']		= $dbObj->width;
-    					$arrLocation['length']		= $dbObj->length;
-					$template = new FrontendTemplate('item_variant_prices');
-					$template->variant = $arrLocation;
-					$buffer .= $template->parse();
+    					$template = new FrontendTemplate('item_variant_sizes');
+    					$template->variant = $arrLocation;
+    					$buffer .= $template->parse();
+    					
+    					$count++;
 				    }
 					return $buffer;
 				}
@@ -80,4 +235,5 @@ class AddVariantsTags extends \System
 		// something has gone horribly wrong, let the user know and hope for brighter lights ahead
 		return 'something_went_wrong';
 	}
+	
 }
