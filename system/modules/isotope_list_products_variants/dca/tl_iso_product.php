@@ -1,6 +1,6 @@
 <?php
 
-$GLOBALS['TL_DCA']['tl_iso_product']['config']['onsubmit_callback'][] = array('IsotopeBsc\Backend\Product\SizeConversion', 'convertSize');
+$GLOBALS['TL_DCA']['tl_iso_product']['config']['onsubmit_callback'][] = array('IsotopeBcs\Backend\Product\SizeConversion', 'convertSize');
 
 /* Add fields to tl_user */
 $GLOBALS['TL_DCA']['tl_iso_product']['fields']['size_as_decimal'] = array
