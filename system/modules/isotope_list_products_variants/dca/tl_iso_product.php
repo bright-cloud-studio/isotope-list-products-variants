@@ -10,7 +10,7 @@ $GLOBALS['TL_DCA']['tl_iso_product']['fields']['size_as_decimal'] = array
 	'eval'			=> array('mandatory'=>false, 'tl_class'=>'w50'),
     'save_callback' => array
     (
-        array('Isotope\Backend\Product\SizeConversion', 'convertSize'),
+        array('IsotopeBcs\Backend\Product\SizeConversion', 'convertSize'),
     ),
 	'sql'			=> "varchar(255) NOT NULL default ''"
 );
