@@ -1,5 +1,10 @@
 <?php
 
+ /* Extend the tl_user palettes */
+foreach ($GLOBALS['TL_DCA']['tl_iso_product']['palettes'] as $k => $v) {
+    $GLOBALS['TL_DCA']['tl_iso_product']['palettes'][$k] = str_replace('stop;', 'stop;{size_convert_legend},size_as_decimal;', $v);
+}
+
 /* Add fields to tl_user */
 $GLOBALS['TL_DCA']['tl_iso_product']['fields']['size_as_decimal'] = array
 (
