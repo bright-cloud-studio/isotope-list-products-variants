@@ -20,7 +20,7 @@ use Contao\StringUtil;
 use Isotope\Model\Product;
 use Isotope\DatabaseUpdater;
 
-class SizeConversion extends Backend
+class SizeConversion extends \Backend
 {
 
     /**
