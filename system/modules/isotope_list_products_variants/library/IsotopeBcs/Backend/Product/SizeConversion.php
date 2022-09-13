@@ -9,7 +9,7 @@
  * @license    https://opensource.org/licenses/lgpl-3.0.html
  */
 
-namespace Isotope\Backend\Product;
+namespace IsotopeBcs\Backend\Product;
 
 
 use Contao\Backend;
@@ -17,6 +17,8 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\Input;
 use Contao\StringUtil;
+use Isotope\Model\Product;
+use Isotope\DatabaseUpdater;
 
 class SizeConversion extends Backend
 {
@@ -30,6 +32,6 @@ class SizeConversion extends Backend
      */
     public function convertSize($varValue, DataContainer $dc)
     {
-      return "DING";
+        \Database::getInstance()->prepare('UPDATE tl_iso_product SET size_as_decimal=? WHERE id=?')->execute("Alias for " ."999", $dc->activeRecord->id);
     }
 }
