@@ -32,7 +32,7 @@ class AddVariantsTags extends \System
 		switch($arrTag[0]) {
 			// if the tag is what we want, {{simple_inventory::id}}, then lets go
 			case 'variants_dimentions':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY cast(wp_size as decimal(7,2)) ASC")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
 				
 				$buffer = '';
 				if ($dbObj->numRows > 0)
@@ -72,7 +72,7 @@ class AddVariantsTags extends \System
 				}
 			break;
 			case 'variants_prices_inches':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY wp_size")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
 				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
@@ -137,7 +137,7 @@ class AddVariantsTags extends \System
 				}
 			break;
 			case 'variants_prices_millimeters':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY wp_size")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
 				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
@@ -203,7 +203,9 @@ class AddVariantsTags extends \System
 			case 'variants_sizes':
 			    
 			   // REPLACE('w3resource','ur','r');
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY cast(REPLACE(wp_size, '','') as decimal) ASC")->execute();  
+			   
+				//$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY LENGTH(size_as_decimal), size_as_decimal")->execute(); 
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
 				$buffer = '';
 				
 				$count = 0;
@@ -233,7 +235,7 @@ class AddVariantsTags extends \System
 		}
 
 		// something has gone horribly wrong, let the user know and hope for brighter lights ahead
-		return 'something_went_wrong';
+		return false;
 	}
 	
 }
