@@ -16,6 +16,8 @@ use Contao\DataContainer;
 use Contao\ContentElement;
 use Contao\FrontendTemplate;
 
+use Isotope\Model\Product;
+
 class AddVariantsTags extends \System
 {
 	public function onReplaceTag (string $insertTag)
@@ -35,12 +37,21 @@ class AddVariantsTags extends \System
 				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1")->execute();  
 				
 				$buffer = '';
+				
 				if ($dbObj->numRows > 0)
 				{
+				    $arrLocation = array(
+						'id'		=> 111,
+						'pid'		=> 222
+					);
 				    while($dbObj->next()) {
-
-    					$template = new FrontendTemplate('item_variant_dimentions');
-    					$template->variant = $dbObj;
+				        $prod = Product::findOneBy(['tl_iso_product.id=?'],[$dbObj->id]);
+                        $arrLocation['id'] 		= $dbObj->id;
+    					$arrLocation['pid']		= $dbObj->pid;
+    					$arrLocation['sku']		= $dbObj->sku;
+    					$arrLocation['product'] = $prod;
+    					$template = new FrontendTemplate('item_variant');
+    					$template->variant = $arrLocation;
     					$buffer .= $template->parse();
 				    }
 					return $buffer;
