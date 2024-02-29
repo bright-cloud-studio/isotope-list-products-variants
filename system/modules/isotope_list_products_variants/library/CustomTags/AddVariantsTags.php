@@ -31,7 +31,22 @@ class AddVariantsTags extends \System
 		// lets make decisions based on the beginning of the tag
 		switch($arrTag[0]) {
 			// if the tag is what we want, {{simple_inventory::id}}, then lets go
-			case 'variants_dimentions':
+			case 'variants':
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1")->execute();  
+				
+				$buffer = '';
+				if ($dbObj->numRows > 0)
+				{
+				    while($dbObj->next()) {
+
+    					$template = new FrontendTemplate('item_variant_dimentions');
+    					$template->variant = $dbObj;
+    					$buffer .= $template->parse();
+				    }
+					return $buffer;
+				}
+			break;
+            case 'variants_dimentions':
 				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
 				
 				$buffer = '';
