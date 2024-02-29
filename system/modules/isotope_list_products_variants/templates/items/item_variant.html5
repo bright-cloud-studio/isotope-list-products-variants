@@ -1,0 +1,15 @@
+<div class="variant variant_<?= $this->variant['id']; ?> size100 no-pad flex_wrapper">
+
+	<div class="size size33">
+		<?php echo $this->variant['wp_size']; ?>
+	</div>
+	
+	<div class="width size33">
+		<?php echo $this->variant['width']; ?>
+	</div>
+	
+	<div class="legth size33">
+		<?php echo $this->variant['length']; ?>
+	</div>
+
+</div>
