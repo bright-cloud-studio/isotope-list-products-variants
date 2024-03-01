@@ -17,6 +17,7 @@ use Contao\ContentElement;
 use Contao\FrontendTemplate;
 
 use Isotope\Model\Product;
+use Isotope\Model\AttributeOption;
 
 class AddVariantsTags extends \System
 {
@@ -50,6 +51,22 @@ class AddVariantsTags extends \System
     					$arrLocation['pid']		= $dbObj->pid;
     					$arrLocation['sku']		= $dbObj->sku;
     					$arrLocation['product'] = $prod;
+    					
+    					$coatingOption = AttributeOption::findByPk($prod->coating_option);
+    					$arrLocation['coating_option'] = $coatingOption->label;
+    					
+    					$fluteOption = AttributeOption::findByPk($prod->flute_option);
+    					$arrLocation['flute_option'] = $fluteOption->label;
+    					
+    					$cornerRadius = AttributeOption::findByPk($prod->corner_radius);
+    					$arrLocation['corner_radius'] = $cornerRadius->label;
+    					
+    					$squareOrBall = AttributeOption::findByPk($prod->square_or_ball);
+    					$arrLocation['square_or_ball'] = $squareOrBall->label;
+    					
+    					//$arrLocation['corner_radius'] = $prod;
+    					//$arrLocation['square_or_ball'] = $prod;
+    					
     					$template = new FrontendTemplate('item_variant');
     					$template->variant = $arrLocation;
     					$buffer .= $template->parse();
