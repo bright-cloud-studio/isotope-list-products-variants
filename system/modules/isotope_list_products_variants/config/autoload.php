@@ -14,7 +14,7 @@
 
 ClassLoader::addClasses(array
 (
-	'IsotopeBcs\Backend\Product\SizeConversion' 	=> 'system/modules/isotope_list_products_variants/library/IsotopeBcs/Backend/Product/SizeConversion.php',
+	//'IsotopeBcs\Backend\Product\SizeConversion' 	=> 'system/modules/isotope_list_products_variants/library/IsotopeBcs/Backend/Product/SizeConversion.php',
 	'Bcs\Backend\ListProductsVariantsHelper' 	=> 'system/modules/isotope_list_products_variants/library/Bcs/Backend/ListProductsVariantsHelper.php',
 	'Bcs\Module\ListProductsVariantsList' 		=> 'system/modules/isotope_list_products_variants/library/Bcs/Module/ListProductsVariantsList.php',
 	'CustomTags\AddVariantsTags' 			=> 'system/modules/isotope_list_products_variants/library/CustomTags/AddVariantsTags.php'
