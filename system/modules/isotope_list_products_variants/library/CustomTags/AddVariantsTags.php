@@ -180,7 +180,7 @@ class AddVariantsTags extends \System
 				}
 			break;
 			case 'variants_prices_millimeters':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1)")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1")->execute();  
 				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
