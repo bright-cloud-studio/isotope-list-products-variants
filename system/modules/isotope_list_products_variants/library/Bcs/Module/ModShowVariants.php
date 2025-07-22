@@ -16,10 +16,10 @@ namespace Bcs\Module;
 use Isotope\Module\ProductList;
 
 
-class ListProductsVariants extends \Contao\Module
+class ModShowVariants extends \Contao\Module
 {
 
-  protected $strTemplate = 'mod_add_meetings';
+  protected $strTemplate = 'mod_show_variants';
   
   protected function compile()
   {
