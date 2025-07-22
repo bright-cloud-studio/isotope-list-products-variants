@@ -29,36 +29,35 @@ class ModShowVariants extends \Contao\Module
     {
         $alias = Frontend::getPageIdFromUrl();
         $page = PageModel::findPublishedByIdOrAlias($alias);
+        
+        $this->Template->page_alias = $alias;
+        $this->Template->page_id = $page->id;
 
         
         $options = [
             'order' => 'name ASC'
         ];
         $variant_data = [];
-        $variants = Product::findBy(["tl_iso_product.orderPages LIKE ?", "tl_iso_product.type = ?"],['%' . $page->id . '%', '2'], $options);
+        $variants = Product::findBy(["tl_iso_product.orderPages LIKE ?", "tl_iso_product.type = ?", "tl_iso_product.published"],['%' . $page->id . '%', '2', '1'], $options);
 
         
         if($variants) {
-            
-            foreach($variants as $id => $variant) {
+            $count = 0;
+            foreach($variants as $variant) {
+
+                $variant_data[$count]['count'] = $count;
+                $variant_data[$count]['id'] = $variant->id;
+                $variant_data[$count]['name'] = $variant->name;
                 
-                echo "Count: " . $id . "<br>";
-                echo "Name: " . $variant->name . "<br>";
-                
-                
-                $variant_data[$id]['count'] = $id;
-                $variant_data[$id]['id'] = $variant->id;
-                $variant_data[$id]['name'] = $variant->name;
-                
-                $variant_data[$id]['image'] = unserialize($variant->images);
+                $variant_data[$count]['image'] = unserialize($variant->images);
                 
                 
                 
                 $bristle = AttributeOption::findBy(["tl_iso_attribute_option.id = ?"],[$variant->bristle_type]);
-                $variant_data[$id]['bristle'] = $bristle->label;
+                $variant_data[$count]['bristle'] = $bristle->label;
                 
                 if($variant->pid == 0)
-                    $variant_data[$id]['sizes'] = $variant->wp_size;
+                    $variant_data[$count]['sizes'] = $variant->wp_size;
                     
                     
 
@@ -71,12 +70,16 @@ class ModShowVariants extends \Contao\Module
                         $child_data[$id]['size'] = $child->wp_size;
                         $child_data[$id]['length'] = round((float)$child->length, 2, PHP_ROUND_HALF_UP);
                         $child_data[$id]['width'] = round((float)$child->width, 2, PHP_ROUND_HALF_UP);
+                        
+                        $child_data[$id]['mm_size'] = $child->wp_size;
+                        $child_data[$id]['mm_length'] = round(((float)$child->length * 25.4), 2, PHP_ROUND_HALF_UP);
+                        $child_data[$id]['mm_width'] = round(((float)$child->width * 25.4), 2, PHP_ROUND_HALF_UP);
                     }
-                    $variant_data[$id]['children'] = $child_data;
+                    $variant_data[$count]['children'] = $child_data;
                     
                 }
                 
-                
+                $count++;
             }
 
             
