@@ -30,9 +30,9 @@ class ListProductsVariants extends ProductList
 	*/
 	protected function findProducts($arrCacheIds = null)
 	{
-		global $objPage;
-		$arrProducts = parent::findProducts($arrCacheIds);
-		return $arrProducts;
+		//global $objPage;
+		//$arrProducts = parent::findProducts($arrCacheIds);
+		//return $arrProducts;
 	}
 
 }
