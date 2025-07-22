@@ -19,20 +19,4 @@ use Isotope\Module\ProductList;
 class ListProductsVariants extends ProductList
 {
 
-
-	
-	/**
-	* Find all products we need to list.
-	*
-	* @param array|null $arrCacheIds
-	*
-	* @return array
-	*/
-	protected function findProducts($arrCacheIds = null)
-	{
-		global $objPage;
-		$arrProducts = parent::findProducts($arrCacheIds);
-		return $arrProducts;
-	}
-
 }
