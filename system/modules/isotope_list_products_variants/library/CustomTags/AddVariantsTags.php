@@ -75,7 +75,7 @@ class AddVariantsTags extends \System
 				}
 			break;
             case 'variants_dimentions':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1")->execute();  
 				
 				$buffer = '';
 				if ($dbObj->numRows > 0)
@@ -115,7 +115,7 @@ class AddVariantsTags extends \System
 				}
 			break;
 			case 'variants_prices_inches':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1")->execute();  
 				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
@@ -180,7 +180,7 @@ class AddVariantsTags extends \System
 				}
 			break;
 			case 'variants_prices_millimeters':
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1)")->execute();  
 				$buffer = '';
 				if ($dbObj->numRows > 0)
 				{
@@ -248,7 +248,7 @@ class AddVariantsTags extends \System
 			   // REPLACE('w3resource','ur','r');
 			   
 				//$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY LENGTH(size_as_decimal), size_as_decimal")->execute(); 
-				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1 ORDER BY CAST(size_as_decimal AS SIGNED)")->execute();  
+				$dbObj = \Database::getInstance()->prepare("SELECT * FROM tl_iso_product WHERE pid = '" . $arrTag[1] . "' AND published = 1")->execute();  
 				$buffer = '';
 				
 				$count = 0;
