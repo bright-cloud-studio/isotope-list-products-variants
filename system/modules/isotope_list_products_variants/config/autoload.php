@@ -26,7 +26,7 @@ ClassLoader::addClasses(array
  */
 TemplateLoader::addFiles(array
 (
-	'item_variant' 	=> 'system/modules/isotope_list_products_variants/templates/items'
+	'item_variant' 	=> 'system/modules/isotope_list_products_variants/templates/items',
     'mod_show_variants' 	=> 'system/modules/isotope_list_products_variants/templates/modules'
 ));
 
