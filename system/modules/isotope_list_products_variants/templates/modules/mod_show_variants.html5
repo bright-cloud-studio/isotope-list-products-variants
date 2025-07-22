@@ -1,3 +1,2 @@
 <div class="mod_show_variants">
-  BING: <?= $this->bing ?>
 </div>
