@@ -56,15 +56,16 @@ class ModShowVariants extends \Contao\Module
                 $bristle = AttributeOption::findBy(["tl_iso_attribute_option.id = ?"],[$variant->bristle_type]);
                 $variant_data[$count]['bristle'] = $bristle->label;
                 
-                if($variant->pid == 0)
-                    $variant_data[$count]['sizes'] = $variant->wp_size;
-                    
-                    
-
-                $children = Product::findBy(["tl_iso_product.pid = ?"],[$variant->id]);
+                
+                $children_options = [
+                    'order' => 'width ASC, length ASC'
+                ];
+                $children = Product::findBy(["tl_iso_product.pid = ?", "tl_iso_product.published = ?"],[$variant->id, '1'], $children_options);
+                
+                $child_data = [];
+                
                 if($children) {
                     
-                    $child_data = [];
                     foreach($children as $id => $child) {
                         $child_data[$id]['id'] = $child->id;
                         $child_data[$id]['size'] = $child->wp_size;
@@ -78,6 +79,19 @@ class ModShowVariants extends \Contao\Module
                     $variant_data[$count]['children'] = $child_data;
                     
                 }
+                
+                
+                // Build the sizes list from the child variants themselves, so it can
+                // never fall out of sync with the products that actually exist
+                $sizes = array_column($child_data, 'size');
+                $sizes = array_filter($sizes, function($size) { return trim((string)$size) !== ''; });
+                $sizes = array_unique($sizes);
+                
+                if(!empty($sizes))
+                    $variant_data[$count]['sizes'] = implode(', ', $sizes);
+                else if($variant->pid == 0)
+                    $variant_data[$count]['sizes'] = $variant->wp_size;
+                
                 
                 $count++;
             }
