@@ -1,0 +1,68 @@
+{% extends '@Contao/content_element/_base.html.twig' %}
+{% use '@Contao/component/_figure.html.twig' %}
+
+{% block content %}
+    <div class="product_list" data-alias="{{ page_alias }}" data-id="{{ page_id }}">
+        {% for variant in variants %}
+            <div class="product product_{{ variant.count }}" id="product_{{ variant.id }}">
+                {% if variant.image %}
+                    {% set image = figure(variant.image) %}
+                    {% if image %}
+                        {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
+                    {% endif %}
+                {% endif %}
+
+                <div class="product_info_wrapper">
+                    <div class="product_info">
+                        <h3 itemprop="name">{{ variant.name }}</h3>
+                        {% if variant.bristle %}
+                            <div class="bristle">{{ variant.bristle }}</div>
+                        {% endif %}
+                        {% if variant.sizes %}
+                            <div class="sizes">Sizes: {{ variant.sizes }}</div>
+                        {% endif %}
+                    </div>
+
+                    {% if variant.children %}
+                        <div class="toggles">
+                            <button type="button" class="variant_toggle variant_toggle_{{ variant.id }}" aria-expanded="false" aria-controls="dimentions_{{ variant.id }}">
+                                Dimensions
+                            </button>
+                        </div>
+                    {% endif %}
+                </div>
+
+                {% if variant.children %}
+                    <div class="dimentions_wrapper dimentions_wrapper_{{ variant.id }}" id="dimentions_{{ variant.id }}" hidden>
+                        <div class="dimentions">
+                            {% for unit in [
+                                {label: 'Inches', length: 'length', width: 'width'},
+                                {label: 'Millimeters', length: 'mm_length', width: 'mm_width'}
+                            ] %}
+                                <table class="{{ unit.label|lower }}">
+                                    <caption>{{ unit.label }}</caption>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Size</th>
+                                            <th scope="col">Length</th>
+                                            <th scope="col">Width</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for child in variant.children %}
+                                            <tr class="variant variant_{{ child.id }}">
+                                                <td>{{ child.size }}</td>
+                                                <td>{{ attribute(child, unit.length) }}</td>
+                                                <td>{{ attribute(child, unit.width) }}</td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}

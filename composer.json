@@ -1,0 +1,33 @@
+{
+    "name": "bright-cloud-studio/isotope-list-products-variants",
+    "description": "Lists Isotope products assigned to a page together with their variants' dimensions in inches and millimeters",
+    "keywords": ["contao", "isotope", "list", "product", "products", "variant", "variants", "bright", "cloud", "studio"],
+    "type": "contao-bundle",
+    "homepage": "https://brightcloudstudio.com/",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Bright Cloud Studio",
+            "homepage": "https://brightcloudstudio.com",
+            "email": "mark@brightcloudstudio.com",
+            "role": "Developer"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/bright-cloud-studio/isotope-list-products-variants/issues",
+        "source": "https://github.com/bright-cloud-studio/isotope-list-products-variants"
+    },
+    "require": {
+        "php": "^8.3",
+        "contao/core-bundle": "^5.7.4",
+        "isotope/isotope-core": "^3.0@RC"
+    },
+    "extra": {
+        "contao-manager-plugin": "Bcs\\IsotopeListProductsVariantsBundle\\ContaoManager\\Plugin"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bcs\\IsotopeListProductsVariantsBundle\\": "src"
+        }
+    }
+}
