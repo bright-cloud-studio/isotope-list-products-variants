@@ -35,31 +35,30 @@
                 </div>
 
                 {% if variant.children %}
-                    <div class="dimentions_wrapper dimentions_wrapper_{{ variant.id }}" id="dimentions_{{ variant.id }}" hidden>
+                    {# Mirrors the Contao 4 markup exactly - the theme styles .inches/.mm
+                       columns and .variant rows of .size/.length/.width, so a table here
+                       would land outside every one of those rules #}
+                    <div class="dimentions_wrapper dimentions_wrapper_{{ variant.id }} flex_wrapper" id="dimentions_{{ variant.id }}" hidden>
                         <div class="dimentions">
                             {% for unit in [
-                                {label: 'Inches', length: 'length', width: 'width'},
-                                {label: 'Millimeters', length: 'mm_length', width: 'mm_width'}
+                                {label: 'Inches', column: 'inches', length: 'length', width: 'width'},
+                                {label: 'Millimeters', column: 'mm', length: 'mm_length', width: 'mm_width'}
                             ] %}
-                                <table class="{{ unit.label|lower }}">
-                                    <caption>{{ unit.label }}</caption>
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Size</th>
-                                            <th scope="col">Length</th>
-                                            <th scope="col">Width</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for child in variant.children %}
-                                            <tr class="variant variant_{{ child.id }}">
-                                                <td>{{ child.size }}</td>
-                                                <td>{{ attribute(child, unit.length) }}</td>
-                                                <td>{{ attribute(child, unit.width) }}</td>
-                                            </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
+                                <div class="{{ unit.column }}">
+                                    <h4>{{ unit.label }}</h4>
+                                    <div class="variant variant_label">
+                                        <div class="size">Size</div>
+                                        <div class="length">Length</div>
+                                        <div class="width">Width</div>
+                                    </div>
+                                    {% for child in variant.children %}
+                                        <div class="variant variant_{{ child.id }}">
+                                            <div class="size">{{ child.size }}</div>
+                                            <div class="length">{{ attribute(child, unit.length) }}</div>
+                                            <div class="width">{{ attribute(child, unit.width) }}</div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
                             {% endfor %}
                         </div>
                     </div>
@@ -84,7 +83,10 @@
                 target.style.transition = 'height 300ms ease';
 
                 if (open) {
+
+                    // A class rule hides this block, so an inline display is what shows it
                     target.hidden = false;
+                    target.style.display = 'block';
                     target.style.height = '0px';
                 } else {
                     target.style.height = target.scrollHeight + 'px';
@@ -102,6 +104,7 @@
                     target.style.removeProperty('height');
 
                     if (!open) {
+                        target.style.removeProperty('display');
                         target.hidden = true;
                     }
                 }, 300);
