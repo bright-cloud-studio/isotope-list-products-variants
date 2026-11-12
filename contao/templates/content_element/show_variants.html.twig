@@ -6,7 +6,9 @@
         {% for variant in variants %}
             <div class="product product_{{ variant.count }}" id="product_{{ variant.id }}">
                 {% if variant.image %}
-                    {% set image = figure(variant.image) %}
+                    {# Size is required by figure(); null keeps the original, matching the
+                       empty main_size on the product galleries this page used in Contao 4 #}
+                    {% set image = figure(variant.image, null) %}
                     {% if image %}
                         {% with {figure: image} %}{{ block('figure_component') }}{% endwith %}
                     {% endif %}
