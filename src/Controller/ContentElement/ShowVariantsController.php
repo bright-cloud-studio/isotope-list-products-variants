@@ -18,6 +18,7 @@ use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Routing\PageFinder;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\StringUtil;
+use Doctrine\DBAL\Connection;
 use Isotope\CoreBundle\Model\AttributeOptionModel;
 use Isotope\CoreBundle\Model\ProductCategoryModel;
 use Isotope\CoreBundle\Model\ProductModel;
@@ -29,8 +30,10 @@ class ShowVariantsController extends AbstractContentElementController
 {
     private const MM_PER_INCH = 25.4;
 
-    public function __construct(private readonly PageFinder $pageFinder)
-    {
+    public function __construct(
+        private readonly PageFinder $pageFinder,
+        private readonly Connection $connection,
+    ) {
     }
 
     protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
@@ -142,32 +145,36 @@ class ShowVariantsController extends AbstractContentElementController
     }
 
     /**
-     * Load the published child variants, smallest first
+     * Load the published child variants, smallest first.
+     *
+     * Queried directly rather than through ProductModel: that model is multilingual,
+     * so findBy() joins the table to itself - making a bare "pid" ambiguous - and
+     * hard-codes "pid=0", which no variant can ever satisfy. Variants are the rows
+     * pointing at the parent with no language set, the same rule Isotope's own
+     * CoreDataCollector uses.
      *
      * @return array<array<string, mixed>>
      */
     private function findChildren(int $productId): array
     {
-        $children = ProductModel::findBy(
-            ['pid=?', "published='1'"],
-            [$productId],
-            ['order' => 'width ASC, length ASC'],
+        $rows = $this->connection->fetchAllAssociative(
+            "SELECT id, wp_size, length, width
+               FROM tl_iso_product
+              WHERE pid = :pid AND language = '' AND published = '1'
+           ORDER BY width ASC, length ASC",
+            ['pid' => $productId],
         );
-
-        if (null === $children) {
-            return [];
-        }
 
         $data = [];
 
-        foreach ($children as $child) {
+        foreach ($rows as $row) {
             $data[] = [
-                'id' => (int) $child->id,
-                'size' => $child->wp_size,
-                'length' => round((float) $child->length, 2),
-                'width' => round((float) $child->width, 2),
-                'mm_length' => round((float) $child->length * self::MM_PER_INCH, 2),
-                'mm_width' => round((float) $child->width * self::MM_PER_INCH, 2),
+                'id' => (int) $row['id'],
+                'size' => $row['wp_size'],
+                'length' => round((float) $row['length'], 2),
+                'width' => round((float) $row['width'], 2),
+                'mm_length' => round((float) $row['length'] * self::MM_PER_INCH, 2),
+                'mm_width' => round((float) $row['width'] * self::MM_PER_INCH, 2),
             ];
         }
 
