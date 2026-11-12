@@ -71,8 +71,12 @@ class ShowVariantsController extends AbstractContentElementController
      *
      * Flow:
      *  1. Read the page's product assignments from tl_iso_product_category
-     *  2. Load the published products of the configured types
-     *  3. Restore the order the editor arranged, which the IN () query does not preserve
+     *  2. Load the published products of the configured types, by name
+     *
+     * Sorted by name ascending to match the Contao 4 module, which ran as an Isotope
+     * product list with iso_listingSortField 'name' and iso_listingSortDirection 'ASC'.
+     * Ordering on the aliased column rather than tl_iso_product.name so a translated
+     * name sorts under its own value, the way Isotope's own list does.
      *
      * @param array<int> $types
      *
@@ -80,7 +84,7 @@ class ShowVariantsController extends AbstractContentElementController
      */
     private function findProductsForPage(int $pageId, array $types): array
     {
-        $categories = ProductCategoryModel::findBy(['pid=?'], [$pageId], ['order' => 'product_sorting']);
+        $categories = ProductCategoryModel::findBy(['pid=?'], [$pageId]);
 
         if (null === $categories) {
             return [];
@@ -100,21 +104,10 @@ class ShowVariantsController extends AbstractContentElementController
                 "tl_iso_product.published='1'",
             ],
             [],
+            ['order' => 'name ASC'],
         );
 
-        if (null === $products) {
-            return [];
-        }
-
-        $order = array_flip($ids);
-        $models = $products->getModels();
-
-        usort(
-            $models,
-            static fn (ProductModel $a, ProductModel $b) => ($order[(int) $a->id] ?? PHP_INT_MAX) <=> ($order[(int) $b->id] ?? PHP_INT_MAX),
-        );
-
-        return $models;
+        return null !== $products ? $products->getModels() : [];
     }
 
     /**
