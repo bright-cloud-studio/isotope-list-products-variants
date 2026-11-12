@@ -15,7 +15,7 @@ use Isotope\CoreBundle\Model\ProductTypeModel;
 /** Table tl_content */
 
 // Palettes
-$GLOBALS['TL_DCA']['tl_content']['palettes']['show_variants'] = '{type_legend},type,headline;{config_legend},iso_variant_product_types;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';
+$GLOBALS['TL_DCA']['tl_content']['palettes']['show_variants'] = '{type_legend},type,headline,title;{config_legend},iso_variant_product_types;{template_legend:hide},customTpl;{protected_legend:hide},protected;{expert_legend:hide},cssID';
 
 // Fields
 $GLOBALS['TL_DCA']['tl_content']['fields']['iso_variant_product_types'] = array
