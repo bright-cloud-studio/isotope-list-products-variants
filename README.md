@@ -41,20 +41,13 @@ themselves, so it cannot drift from the products that actually exist.
 ### Toggling the dimensions block
 
 The dimensions block ships as `hidden` with a `<button>` carrying
-`aria-expanded` and `aria-controls`. Wire it up with whatever the site already
-uses, for example:
+`aria-expanded` and `aria-controls`, and the template ships the small script
+that toggles it. Nothing needs wiring up on the site.
 
-```js
-document.querySelectorAll('.variant_toggle').forEach((button) => {
-    button.addEventListener('click', () => {
-        const target = document.getElementById(button.getAttribute('aria-controls'));
-        const open = button.getAttribute('aria-expanded') === 'true';
-
-        button.setAttribute('aria-expanded', String(!open));
-        target.hidden = open;
-    });
-});
-```
+The script is delegated from the document and guarded, so placing several of
+these elements on one page is safe. It slides the block open and shut over
+300ms by animating its height, which is what the 4.13 version got from jQuery
+UI's blind effect - but without jQuery or jQuery UI.
 
 ### Overriding the template
 
