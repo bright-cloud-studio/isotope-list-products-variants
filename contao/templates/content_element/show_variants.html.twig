@@ -18,7 +18,7 @@
                     <div class="product_info">
                         <h3 itemprop="name">{{ variant.name }}</h3>
                         {% if variant.bristle %}
-                            <div class="bristle">{{ variant.bristle }}</div>
+                            <div class="bristle">&nbsp;&nbsp;&bull;&nbsp;&nbsp;{{ variant.bristle }}</div>
                         {% endif %}
                         {% if variant.sizes %}
                             <div class="sizes">Sizes: {{ variant.sizes }}</div>
@@ -28,7 +28,7 @@
                     {% if variant.children %}
                         <div class="toggles">
                             <button type="button" class="variant_toggle variant_toggle_{{ variant.id }}" aria-expanded="false" aria-controls="dimentions_{{ variant.id }}">
-                                Dimensions
+                                Dimensions <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
                             </button>
                         </div>
                     {% endif %}
@@ -67,4 +67,59 @@
             </div>
         {% endfor %}
     </div>
+
+    {# The Contao 4 version relied on an inline onClick and jQuery UI's blind effect,
+       loaded from a CDN by the theme's js_variant_toggle template. Ship the behaviour
+       with the element instead, animating the height directly so nothing but the
+       element itself is needed. Delegated from the document and guarded, so several
+       elements on one page cannot bind the same button twice. #}
+    <script>
+        if (!window.bcsVariantToggle) {
+            window.bcsVariantToggle = true;
+
+            var bcsVariantSlide = function (target, open) {
+
+                // Clip and animate the height, which is what the blind effect did
+                target.style.overflow = 'hidden';
+                target.style.transition = 'height 300ms ease';
+
+                if (open) {
+                    target.hidden = false;
+                    target.style.height = '0px';
+                } else {
+                    target.style.height = target.scrollHeight + 'px';
+                }
+
+                // Force a reflow so the browser animates from the height just set
+                void target.offsetHeight;
+
+                target.style.height = open ? target.scrollHeight + 'px' : '0px';
+
+                // Hand the height back to the stylesheet once the slide has finished
+                window.setTimeout(function () {
+                    target.style.removeProperty('transition');
+                    target.style.removeProperty('overflow');
+                    target.style.removeProperty('height');
+
+                    if (!open) {
+                        target.hidden = true;
+                    }
+                }, 300);
+            };
+
+            document.addEventListener('click', function (event) {
+                var button = event.target.closest('.variant_toggle');
+
+                if (!button) {
+                    return;
+                }
+
+                var target = document.getElementById(button.getAttribute('aria-controls'));
+                var open = button.getAttribute('aria-expanded') !== 'true';
+
+                button.setAttribute('aria-expanded', String(open));
+                bcsVariantSlide(target, open);
+            });
+        }
+    </script>
 {% endblock %}
